@@ -6,6 +6,7 @@ import { RegistrationComponent } from './components/registration/registration.co
 import { AuthComponent } from './auth.component';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RxReactiveFormsModule} from '@rxweb/reactive-form-validators';
 
 const routes: Routes = [
   {
@@ -29,7 +30,8 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    RxReactiveFormsModule
   ]
 })
 export class AuthModule { }

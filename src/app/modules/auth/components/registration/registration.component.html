@@ -1,1 +1,61 @@
-<p>registration works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-5 mx-auto">
+      <div id="first">
+        <div class="myform form ">
+          <div class="logo mb-3">
+            <div class="w-25 mx-auto">
+              <img class="card-img-top" src="../../../../../assets/logo.png" alt="Card image cap">
+            </div>
+            <div>
+              <h3 class="col-md-12 text-center">
+                Sign Up
+              </h3>
+            </div>
+          </div>
+          <form [formGroup]="registrationFormGroup" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <input type="email" class="form-control" placeholder="Email*" [formControlName]="'email'" required>
+              <div  *ngIf="registrationFormGroup.get('email')!.invalid && registrationFormGroup.get('email')!.touched">
+                {{getEmailError('email') || getRequiredError('email')}}
+              </div>
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control" placeholder="Password*" [formControlName]="'password'" required>
+              <div  *ngIf="registrationFormGroup.get('password')!.invalid && registrationFormGroup.get('password')!.touched">
+                {{getRequiredError('password')}}
+              </div>
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control" placeholder="Confirm Password*" [formControlName]="'confirmedPassword'" required>
+              <div  *ngIf="registrationFormGroup.get('confirmedPassword')!.invalid && registrationFormGroup.get('confirmedPassword')!.touched">
+                {{getRequiredError('confirmedPassword') || getPasswordsEqualsError()}}
+              </div>
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="First Name" [formControlName]="'firstName'">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Last Name" [formControlName]="'lastName'">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Phone Number" [formControlName]="'phoneNumber'">
+              <div  *ngIf="registrationFormGroup.get('phoneNumber')!.invalid && registrationFormGroup.get('phoneNumber')!.touched">
+                {{getPhoneNumberError('phoneNumber')}}
+              </div>
+            </div>
+            <div class="col-md-12 text-center ">
+              <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm" [disabled]="!registrationFormGroup.valid">
+                Sign Up
+              </button>
+            </div>
+            <div class="form-group">
+              <p class="text-center">Already have an account? <a routerLink="/auth/login">Log In</a></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

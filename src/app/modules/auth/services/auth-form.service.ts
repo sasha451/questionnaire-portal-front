@@ -22,4 +22,19 @@ export class AuthFormService {
       );
     }));
   }
+
+  addCustomer(customer: CustomerModel): Promise<any> {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return  new Promise((resolve, reject) => {
+      this.httpClient.get<CustomerModel>(`${this.baseUrl}${customer.email}`).subscribe(
+        result => {
+          reject('That email is taken, please try another');
+        },
+        error => {
+          this.httpClient.post<CustomerModel>(`${this.baseUrl}`, JSON.stringify(customer), {headers}).subscribe();
+          resolve(customer);
+        }
+      );
+    });
+  }
 }
