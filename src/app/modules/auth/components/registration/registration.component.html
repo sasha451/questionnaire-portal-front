@@ -16,19 +16,19 @@
           <form [formGroup]="registrationFormGroup" (ngSubmit)="onSubmit()">
             <div class="form-group">
               <input type="email" class="form-control" placeholder="Email*" [formControlName]="'email'" required>
-              <div  *ngIf="registrationFormGroup.get('email')!.invalid && registrationFormGroup.get('email')!.touched">
+              <div class="error" *ngIf="registrationFormGroup.get('email')!.invalid && registrationFormGroup.get('email')!.touched">
                 {{getEmailError('email') || getRequiredError('email')}}
               </div>
             </div>
             <div class="form-group">
               <input type="password" class="form-control" placeholder="Password*" [formControlName]="'password'" required>
-              <div  *ngIf="registrationFormGroup.get('password')!.invalid && registrationFormGroup.get('password')!.touched">
+              <div class="error" *ngIf="registrationFormGroup.get('password')!.invalid && registrationFormGroup.get('password')!.touched">
                 {{getRequiredError('password')}}
               </div>
             </div>
             <div class="form-group">
               <input type="password" class="form-control" placeholder="Confirm Password*" [formControlName]="'confirmedPassword'" required>
-              <div  *ngIf="registrationFormGroup.get('confirmedPassword')!.invalid && registrationFormGroup.get('confirmedPassword')!.touched">
+              <div class="error" *ngIf="registrationFormGroup.get('confirmedPassword')!.invalid && registrationFormGroup.get('confirmedPassword')!.touched">
                 {{getRequiredError('confirmedPassword') || getPasswordsEqualsError()}}
               </div>
             </div>
@@ -40,7 +40,7 @@
             </div>
             <div class="form-group">
               <input type="text" class="form-control" placeholder="Phone Number" [formControlName]="'phoneNumber'">
-              <div  *ngIf="registrationFormGroup.get('phoneNumber')!.invalid && registrationFormGroup.get('phoneNumber')!.touched">
+              <div class="error" *ngIf="registrationFormGroup.get('phoneNumber')!.invalid && registrationFormGroup.get('phoneNumber')!.touched">
                 {{getPhoneNumberError('phoneNumber')}}
               </div>
             </div>

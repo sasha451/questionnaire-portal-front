@@ -12,20 +12,25 @@
           </div>
           <form [formGroup]="profileFormGroup" (ngSubmit)="onSubmit()">
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="First Name" [formControlName]="'firstName'">
+              <label>First Name</label>
+              <input type="text" class="form-control" [formControlName]="'firstName'">
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Last Name" [formControlName]="'lastName'">
+              <label>Last Name</label>
+              <input type="text" class="form-control" [formControlName]="'lastName'">
             </div>
             <div class="form-group">
-              <input type="email" class="form-control" placeholder="Email*" [formControlName]="'email'" required>
-              <div  *ngIf="profileFormGroup.get('email')!.invalid && profileFormGroup.get('email')!.touched">
+              <label>Email</label>
+              <bdi class="error">*</bdi>
+              <input type="email" class="form-control" [formControlName]="'email'" required>
+              <div class="error"  *ngIf="profileFormGroup.get('email')!.invalid && profileFormGroup.get('email')!.touched">
                 {{getEmailError('email') || getRequiredError('email')}}
               </div>
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Phone Number" [formControlName]="'phoneNumber'">
-              <div  *ngIf="profileFormGroup.get('phoneNumber')!.invalid && profileFormGroup.get('phoneNumber')!.touched">
+              <label>Phone Number</label>
+              <input type="text" class="form-control" [formControlName]="'phoneNumber'">
+              <div class="error" *ngIf="profileFormGroup.get('phoneNumber')!.invalid && profileFormGroup.get('phoneNumber')!.touched">
                 {{getPhoneNumberError('phoneNumber')}}
               </div>
             </div>

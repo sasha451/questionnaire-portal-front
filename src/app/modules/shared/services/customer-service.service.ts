@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {CustomerModel} from '../../../models/customer.model';
 
@@ -8,7 +8,9 @@ import {CustomerModel} from '../../../models/customer.model';
 export class CustomerServiceService {
 
   private baseUrl = 'http://localhost:8085/api/v1/customers/';
-  constructor(private httpClient: HttpClient) { }
+
+  constructor(private httpClient: HttpClient) {
+  }
 
   loginCustomer(customer: CustomerModel): Promise<any> {
     return new Promise(((resolve, reject) => {
@@ -39,7 +41,7 @@ export class CustomerServiceService {
 
   addCustomer(customer: CustomerModel): Promise<any> {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    return  new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.httpClient.get<CustomerModel>(`${this.baseUrl}${customer.email}`).subscribe(
         result => {
           reject('That email is taken, please try another');
