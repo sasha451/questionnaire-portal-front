@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {AuthFormService} from '../../services/auth-form.service';
+import {CustomerServiceService} from '../../../shared/services/customer-service.service';
 import {Router} from '@angular/router';
 import {CustomerModel} from '../../../../models/customer.model';
 import {RxwebValidators} from '@rxweb/reactive-form-validators';
@@ -16,7 +16,7 @@ export class RegistrationComponent implements OnInit {
     password: this.formBuilder.control('', Validators.required)
   });
   constructor(private formBuilder: FormBuilder,
-              private authService: AuthFormService,
+              private authService: CustomerServiceService,
               private router: Router) { }
 
   ngOnInit(): void {

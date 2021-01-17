@@ -5,7 +5,7 @@ import {CustomerModel} from '../../../models/customer.model';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthFormService {
+export class CustomerServiceService {
 
   private baseUrl = 'http://localhost:8085/api/v1/customers/';
   constructor(private httpClient: HttpClient) { }
@@ -18,6 +18,20 @@ export class AuthFormService {
         },
         error => {
           reject(`Your email or password is incorrect`);
+        }
+      );
+    }));
+  }
+
+  updateCustomer(customer: CustomerModel): Promise<any> {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return new Promise<any>(((resolve, reject) => {
+      this.httpClient.put<CustomerModel>(`${this.baseUrl}${customer.id}`, JSON.stringify(customer), {headers}).subscribe(
+        result => {
+          resolve(result);
+        },
+        error => {
+          reject('Old customer was not found');
         }
       );
     }));
