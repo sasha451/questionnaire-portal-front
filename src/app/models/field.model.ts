@@ -5,4 +5,5 @@ export interface FieldModel {
   required: string;
   active: string;
   customerId: number;
+  options: {id: number; optionValue: string}[];
 }

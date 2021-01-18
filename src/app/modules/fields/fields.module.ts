@@ -4,6 +4,8 @@ import {RouterModule, Routes} from '@angular/router';
 import { FieldsComponent } from './fields.component';
 import {SharedModule} from '../shared/shared.module';
 import {NgbDatepickerModule} from '@ng-bootstrap/ng-bootstrap';
+import {ReactiveFormsModule} from '@angular/forms';
+import { AddFieldComponent } from './components/add-field/add-field.component';
 
 const routes: Routes = [
   {
@@ -14,12 +16,13 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [FieldsComponent],
+  declarations: [FieldsComponent, AddFieldComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
     SharedModule,
-    NgbDatepickerModule
+    NgbDatepickerModule,
+    ReactiveFormsModule
   ]
 })
 export class FieldsModule { }

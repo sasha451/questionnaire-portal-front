@@ -18,4 +18,8 @@ export class FieldServiceService {
   deleteField(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}${id}`);
   }
+
+  saveField(fieldModel: FieldModel): Observable<FieldModel> {
+    return this.http.post<FieldModel>(`${this.baseUrl}`, fieldModel);
+  }
 }
