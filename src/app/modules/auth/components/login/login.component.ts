@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CustomerModel} from '../../../../models/customer.model';
-import {AuthFormService} from '../../services/auth-form.service';
+import {CustomerServiceService} from '../../../shared/services/customer-service.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
     password: this.formBuilder.control('', Validators.required)
   });
   constructor(private formBuilder: FormBuilder,
-              private authService: AuthFormService,
+              private authService: CustomerServiceService,
               private router: Router) {
   }
 
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
       .then(response => {
         localStorage.clear();
         localStorage.setItem('customer_info', JSON.stringify(response));
-        // this.router.navigate(['fields']); // Todo
+        this.router.navigate(['/fields']);
       })
       .catch(error => {
         console.log(error.toString());

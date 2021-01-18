@@ -1,14 +1,16 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {CustomerModel} from '../../../models/customer.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthFormService {
+export class CustomerServiceService {
 
   private baseUrl = 'http://localhost:8085/api/v1/customers/';
-  constructor(private httpClient: HttpClient) { }
+
+  constructor(private httpClient: HttpClient) {
+  }
 
   loginCustomer(customer: CustomerModel): Promise<any> {
     return new Promise(((resolve, reject) => {
@@ -23,9 +25,23 @@ export class AuthFormService {
     }));
   }
 
+  updateCustomer(customer: CustomerModel): Promise<any> {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return new Promise<any>(((resolve, reject) => {
+      this.httpClient.put<CustomerModel>(`${this.baseUrl}${customer.id}`, JSON.stringify(customer), {headers}).subscribe(
+        result => {
+          resolve(result);
+        },
+        error => {
+          reject('Old customer was not found');
+        }
+      );
+    }));
+  }
+
   addCustomer(customer: CustomerModel): Promise<any> {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    return  new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.httpClient.get<CustomerModel>(`${this.baseUrl}${customer.email}`).subscribe(
         result => {
           reject('That email is taken, please try another');
