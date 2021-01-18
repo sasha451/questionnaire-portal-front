@@ -1,2 +1,40 @@
 <app-navbar></app-navbar>
-<p>fields works!</p>
+<div class="container">
+  <div class="jumbotron">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-8"><h2>Fields</h2></div>
+          <div class="col-sm-4">
+            <button type="button" class="btn btn-primary">+ Add New</button>
+          </div>
+        </div>
+      </div>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Label</th>
+          <th>Type</th>
+          <th>Required</th>
+          <th>Is Active</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let field of fields">
+          <td> {{ field.label }} </td>
+          <td> {{ field.fieldType }} </td>
+          <td> {{ field.required }} </td>
+          <td> {{ field.active }} </td>
+          <td>
+            <div class="d-flex flex-row">
+              <button class="btn btn-outline-success" title="Edit">Edit</button>
+              <button class="btn btn-outline-danger" title="Delete" (click)="deleteField(field.id)">Delete</button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

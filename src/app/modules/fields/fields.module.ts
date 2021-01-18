@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import { FieldsComponent } from './fields.component';
 import {SharedModule} from '../shared/shared.module';
+import {NgbDatepickerModule} from '@ng-bootstrap/ng-bootstrap';
 
 const routes: Routes = [
   {
@@ -17,7 +18,8 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    SharedModule
+    SharedModule,
+    NgbDatepickerModule
   ]
 })
 export class FieldsModule { }
