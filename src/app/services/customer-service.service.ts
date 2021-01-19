@@ -1,15 +1,30 @@
-import {Injectable} from '@angular/core';
+import {Injectable, SkipSelf} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {CustomerModel} from '../../../models/customer.model';
+import {CustomerModel} from '../models/customer.model';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class CustomerServiceService {
 
   private baseUrl = 'http://localhost:8085/api/v1/customers/';
+  private authUrl = 'http://localhost:8085/authenticate';
 
   constructor(private httpClient: HttpClient) {
+  }
+  authCustomer(customer: CustomerModel): Promise<any> {
+    let authRequest = {username: customer.email, password: customer.password};
+    return new Promise(((resolve, reject) => {
+      this.httpClient.post<any>(`${this.authUrl}`, authRequest).subscribe(
+        result => {
+          resolve(result);
+        },
+        error => {
+          reject(`Your email or password is incorrect`);
+        }
+      );
+    }));
   }
 
   loginCustomer(customer: CustomerModel): Promise<any> {

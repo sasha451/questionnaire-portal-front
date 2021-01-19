@@ -3,7 +3,7 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {FieldModel} from '../../../../models/field.model';
 import {OptionModel} from '../../../../models/option.model';
-import {FieldServiceService} from '../../../shared/services/field-service.service';
+import {FieldServiceService} from '../../../../services/field-service.service';
 import {Router} from '@angular/router';
 
 @Component({

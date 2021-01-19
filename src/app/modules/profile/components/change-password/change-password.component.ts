@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CustomerServiceService} from '../../../shared/services/customer-service.service';
+import {CustomerServiceService} from '../../../../services/customer-service.service';
 import {Router} from '@angular/router';
 import {RxwebValidators} from '@rxweb/reactive-form-validators';
 import {CustomerModel} from '../../../../models/customer.model';

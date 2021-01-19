@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {ResponseModel} from '../../models/response.model';
-import {ResponseServiceService} from '../shared/services/response-service.service';
+import {ResponseServiceService} from '../../services/response-service.service';
 import {RxUnsubscribe} from '../../classes/rx-unsubscribe';
 import {takeUntil} from 'rxjs/operators';
 import {FieldModel} from '../../models/field.model';
-import {FieldServiceService} from '../shared/services/field-service.service';
+import {FieldServiceService} from '../../services/field-service.service';
 import {ResponseEntryModel} from '../../models/responseEntry.model';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';

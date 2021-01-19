@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {FieldModel} from '../../models/field.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
-import {FieldServiceService} from '../shared/services/field-service.service';
+import {FieldServiceService} from '../../services/field-service.service';
 import {RxUnsubscribe} from '../../classes/rx-unsubscribe';
 import {FormBuilder, FormArray, Validators} from '@angular/forms';
-import {ResponseServiceService} from '../shared/services/response-service.service';
+import {ResponseServiceService} from '../../services/response-service.service';
 import {ResponseModel} from '../../models/response.model';
 import {ResponseEntryModel} from '../../models/responseEntry.model';
 

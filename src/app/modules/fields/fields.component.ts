@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FieldModel} from '../../models/field.model';
 import {RxUnsubscribe} from '../../classes/rx-unsubscribe';
-import {FieldServiceService} from '../shared/services/field-service.service';
+import {FieldServiceService} from '../../services/field-service.service';
 import {takeUntil} from 'rxjs/operators';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AddFieldComponent} from './components/add-field/add-field.component';
