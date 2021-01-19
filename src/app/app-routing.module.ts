@@ -13,6 +13,18 @@ const routes: Routes = [
   {
     path: 'profile',
     loadChildren: () => import('./modules/profile/profile.module').then(m => m.ProfileModule)
+  },
+  {
+    path: 'questionnaire/:id',
+    loadChildren: () => import('./modules/questionnaire/questionnaire.module').then(m => m.QuestionnaireModule)
+  },
+  {
+    path: 'success',
+    loadChildren: () => import('./modules/shared/shared.module').then(m => m.SharedModule)
+  },
+  {
+    path: 'responses',
+    loadChildren: () => import('./modules/responses/responses.module').then(m => m.ResponsesModule)
   }
 ];
 

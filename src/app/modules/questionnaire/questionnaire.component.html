@@ -1,0 +1,52 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="row">
+    <div class="col-md-5 mx-auto">
+      <div id="first">
+        <div class="myform form ">
+          <form [formGroup]="questionnaireFromGroup" (ngSubmit)="onSubmit()">
+            <form formArrayName="aliases">
+              <div class="form-group" *ngFor="let field of fields; let i = index">
+                <label *ngIf="field.active === true">{{field.label}}</label>
+                <bdi class="error" *ngIf="field.active === true && field.required === true">*</bdi>
+                <input type="text" class="form-control" [formControlName]="i" *ngIf="field.active === true && field.fieldType === 'SINGLE_LINE_TEXT'">
+                <div class="" *ngIf="field.active === true && field.fieldType === 'COMBOBOX'">
+                  <select class="form-control" [formControlName]="i"  id="sel1">
+                    <option *ngFor="let option of field.options">{{option.optionValue}}</option>
+                  </select>
+                </div>
+                <form [formGroupName]="i" *ngIf="field.active === true && field.fieldType === 'CHECKBOX'">
+                  <div class="btn-group btn-group-toggle" >
+                    <label class="btn-primary" ngbButtonLabel *ngFor="let option of field.options">
+                      <input type="checkbox" [formControlName]="option.optionValue" ngbButton>{{option.optionValue}}
+                    </label>
+                  </div>
+                </form>
+                <form *ngIf="field.active === true && field.fieldType === 'RADIO_BUTTON'" [formGroupName]="i">
+                  <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic">
+                    <label ngbButtonLabel class="btn-primary" *ngFor="let option of field.options">
+                      <input ngbButton type="radio" [formControlName]="option.optionValue">{{option.optionValue}}
+                    </label>
+                  </div>
+                </form>
+                <textarea type="text" class="form-control" [formControlName]="i" *ngIf="field.active === true && field.fieldType === 'MULTILINE_TEXT'"></textarea>
+                <div class="input-group" *ngIf="field.active === true && field.fieldType === 'DATE'">
+                  <input id="dateOfBirth" class="form-control" [formControlName]="i" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="col-md-12 text-center ">
+              <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm" [disabled]="!questionnaireFromGroup.valid">
+                Save
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

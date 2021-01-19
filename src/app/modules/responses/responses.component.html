@@ -1,0 +1,25 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="jumbotron">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-8"><h2>Responses</h2></div>
+        </div>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <th *ngFor="let field of fields">{{field.label}}</th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let response of responses">
+          <td *ngFor="let field of fields">
+            <div *ngIf="!answerWillBe(field, response.responseEntries)">N/A</div>
+            <div *ngIf="answerWillBe(field, response.responseEntries)">{{getAnswer(field, response.responseEntries)}}</div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

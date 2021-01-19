@@ -6,6 +6,7 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
 import {RouterModule, Routes} from '@angular/router';
 import {SharedModule} from '../shared/shared.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { SuccessPageComponent } from './components/success-page/success-page.component';
 
 const routes: Routes = [
   {
@@ -13,7 +14,8 @@ const routes: Routes = [
     children: [
       {path: '', redirectTo: 'editProfile'},
       {path: 'editProfile', component: EditProfileComponent},
-      {path: 'changePassword', component: ChangePasswordComponent}
+      {path: 'changePassword', component: ChangePasswordComponent},
+      {path: 'successSaved', component: SuccessPageComponent}
     ]
   }
 ];
@@ -22,7 +24,8 @@ const routes: Routes = [
   declarations: [
     ProfileComponent,
     EditProfileComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    SuccessPageComponent
   ],
   imports: [
     CommonModule,
