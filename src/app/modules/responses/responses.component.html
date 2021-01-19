@@ -14,8 +14,8 @@
         <tbody>
         <tr *ngFor="let response of responses">
           <td *ngFor="let field of fields">
-            <div *ngIf="!answerWillBe(field, response.responseEntries)">N/A</div>
-            <div *ngIf="answerWillBe(field, response.responseEntries)">{{getAnswer(field, response.responseEntries)}}</div>
+            <div *ngIf="!answerWillBe(field.id, response.responseEntries)">N/A</div>
+            <div *ngIf="answerWillBe(field.id, response.responseEntries)">{{getAnswer(field.id, response.responseEntries)}}</div>
           </td>
         </tr>
         </tbody>

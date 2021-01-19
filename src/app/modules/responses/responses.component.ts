@@ -6,6 +6,8 @@ import {takeUntil} from 'rxjs/operators';
 import {FieldModel} from '../../models/field.model';
 import {FieldServiceService} from '../shared/services/field-service.service';
 import {ResponseEntryModel} from '../../models/responseEntry.model';
+import * as Stomp from 'stompjs';
+import * as SockJS from 'sockjs-client';
 
 @Component({
   selector: 'app-responses',
@@ -19,6 +21,13 @@ export class ResponsesComponent extends RxUnsubscribe implements OnInit {
   fields: FieldModel[];
   // @ts-ignore
   customerId: number;
+  greetings: ResponseModel[] = [];
+  showConversation: boolean = false;
+  ws: any;
+  // @ts-ignore
+  name: string;
+  // @ts-ignore
+  disabled: boolean;
   constructor(private responseService: ResponseServiceService,
               private fieldService: FieldServiceService) {
     super();
@@ -28,24 +37,75 @@ export class ResponsesComponent extends RxUnsubscribe implements OnInit {
     this.customerId = JSON.parse(localStorage.getItem('customer_info') as string).id;
     this.loadResponses(this.customerId);
     this.loadFields(this.customerId);
+    this.connect();
   }
 
-  answerWillBe(field: FieldModel, responseEntries: ResponseEntryModel[]): boolean {
+  connect() {
+    let socket = new WebSocket("ws://localhost:8085/greeting");
+    this.ws = Stomp.over(socket);
+    let that = this;
+    // @ts-ignore
+    this.ws.connect({}, function(frame) {
+
+      // @ts-ignore
+      that.ws.subscribe("/errors", function(message) {
+        alert("Error " + message.body);
+      });
+      // @ts-ignore
+      that.ws.subscribe("/topic/reply", function(message) {
+        that.showGreeting(message.body);
+      });
+      that.disabled = true;
+      // @ts-ignore
+    }, function(error) {
+      alert("STOMP error " + error);
+    });
+  }
+
+  disconnect() {
+    if (this.ws != null) {
+      this.ws.ws.close();
+    }
+    this.setConnected(false);
+    console.log("Disconnected");
+  }
+
+  sendName() {
+    let data = JSON.stringify({
+      'name' : this.name
+    })
+    this.ws.send("/app/message", {}, data);
+  }
+
+  // @ts-ignore
+  showGreeting(message) {
+    this.responses.push(message);
+    this.loadResponses(this.customerId);
+  }
+
+  // @ts-ignore
+  setConnected(connected) {
+    this.disabled = connected;
+    this.showConversation = connected;
+    this.greetings = [];
+  }
+
+  answerWillBe(fieldId: number, responseEntries: ResponseEntryModel[]): boolean {
     let length = responseEntries.length;
     let returnValue = false;
     responseEntries.forEach((responseEntry, index) => {
-      if (responseEntry.fieldId === field.id) {
+      if (responseEntry.fieldId === fieldId) {
         returnValue = true;
       }
     });
     return returnValue;
   }
 
-  getAnswer(field: FieldModel, responseEntries: ResponseEntryModel[]): string {
+  getAnswer(fieldId: number, responseEntries: ResponseEntryModel[]): string {
     let length = responseEntries.length;
     let returnValue = '';
     responseEntries.forEach((responseEntry, index) => {
-      if (responseEntry.fieldId === field.id) {
+      if (responseEntry.fieldId === fieldId) {
         returnValue = responseEntry.responseEntryValue
       }
     });

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light pr-5 pl-5 pb-0">
   <a class="navbar-brand" href="#">
-    <img class="w-50" src="../../../../../assets/logo.png" alt="">
+    <img class="w-50" src="../../../../../assets/logo.png" disabled alt="">
   </a>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav ml-auto">
@@ -18,7 +18,7 @@
             <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" routerLink="/profile/editProfile">Edit Profile</a>
               <a class="dropdown-item" routerLink="/profile/changePassword">Change Password</a>
-              <a class="dropdown-item" (click)="logOut()">Log Out</a>
+              <a class="dropdown-item" (click)="logOut() ">Log Out</a>
             </div>
           </li>
     </ul>
