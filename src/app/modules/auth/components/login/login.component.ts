@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CustomerModel} from '../../../../models/customer.model';
-import {CustomerServiceService} from '../../../shared/services/customer-service.service';
+import {CustomerServiceService} from '../../../../services/customer-service.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
     password: this.formBuilder.control('', Validators.required)
   });
   constructor(private formBuilder: FormBuilder,
-              private authService: CustomerServiceService,
+              private customerService: CustomerServiceService,
               private router: Router) {
   }
 
@@ -31,9 +31,21 @@ export class LoginComponent implements OnInit {
   public onSubmit(): void {
     const answer = this.loginFormGroup.value;
     const customer: CustomerModel = {id: 0, email: answer.email, password: answer.password, firstName: '', lastName: '', phoneNumber: ''};
-    this.authService.loginCustomer(customer)
+    this.customerService.authCustomer(customer)
       .then(response => {
         localStorage.clear();
+        localStorage.setItem('id_token', response.jwt);
+      })
+      .catch(error => {
+        console.log(error.toString());
+      });
+    this.next(customer);
+  }
+
+  next(customer: CustomerModel): void {
+    this.customerService.loginCustomer(customer)
+      .then(response => {
+        console.log('im here');
         localStorage.setItem('customer_info', JSON.stringify(response));
         this.router.navigate(['/fields']);
       })

@@ -6,7 +6,7 @@
         <div class="row">
           <div class="col-sm-8"><h2>Fields</h2></div>
           <div class="col-sm-4">
-            <button type="button" class="btn btn-primary">+ Add New</button>
+            <button type="button" class="btn btn-primary" (click)="addField()">+ Add New</button>
           </div>
         </div>
       </div>
@@ -28,7 +28,7 @@
           <td> {{ field.active }} </td>
           <td>
             <div class="d-flex flex-row">
-              <button class="btn btn-outline-success" title="Edit">Edit</button>
+              <button class="btn btn-outline-success" title="Edit" (click)="addField()">Edit</button>
               <button class="btn btn-outline-danger" title="Delete" (click)="deleteField(field.id)">Delete</button>
             </div>
           </td>
