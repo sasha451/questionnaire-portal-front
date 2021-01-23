@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FieldModel} from '../../models/field.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
@@ -16,15 +16,15 @@ import {ResponseEntryModel} from '../../models/responseEntry.model';
 })
 export class QuestionnaireComponent extends RxUnsubscribe implements OnInit {
   // @ts-ignore
-  fields: FieldModel[];
+  fields: FieldModel[] = [];
   // @ts-ignore
   id: number;
   // @ts-ignore
   fieldsNumber: number;
   questionnaireFromGroup = this.formBuilder.group({
-    aliases: this.formBuilder.array([
-    ])
+    aliases: this.formBuilder.array([])
   });
+
   constructor(private route: ActivatedRoute,
               private fieldService: FieldServiceService,
               private formBuilder: FormBuilder,
@@ -51,26 +51,27 @@ export class QuestionnaireComponent extends RxUnsubscribe implements OnInit {
       )
       .subscribe(
         (fieldsArray: FieldModel[]) => {
-          this.fields = fieldsArray;
-          this.fields.forEach((value, index) => {
-            if (value.fieldType === 'CHECKBOX' || value.fieldType === 'RADIO_BUTTON') {
-              const optionsLength = value.options.length;
-              let myGroup = this.formBuilder.group({});
-              for (let option of value.options) {
-                myGroup.addControl(option.optionValue ,this.formBuilder.control(''));
+          fieldsArray.forEach((value) => {
+            if (value.active) {
+              this.fields.push(value);
+              if (value.fieldType === 'CHECKBOX' || value.fieldType === 'RADIO_BUTTON') {
+                let myGroup = this.formBuilder.group({});
+                for (let option of value.options) {
+                  myGroup.addControl(option.optionValue, this.formBuilder.control(''));
+                }
+                this.aliases.push(myGroup);
+              } else if (value.required) {
+                this.aliases.push(this.formBuilder.control('', Validators.required));
+              } else {
+                this.aliases.push(this.formBuilder.control(''));
               }
-              this.aliases.push(myGroup);
-            } else if (value.required) {
-              this.aliases.push(this.formBuilder.control('', Validators.required));
-            } else {
-              this.aliases.push(this.formBuilder.control(''));
             }
           });
         }
       );
   }
 
-  public onSubmit(): void{
+  public onSubmit(): void {
     const answer = this.aliases.value;
     console.log(answer);
     let myResponseEntries: ResponseEntryModel[] = [];

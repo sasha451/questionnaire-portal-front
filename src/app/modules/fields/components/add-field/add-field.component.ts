@@ -37,16 +37,10 @@ export class AddFieldComponent implements OnInit {
       const value = this.editFieldFormGroup.get('type').value;
       if ((value === 'SINGLE_LINE_TEXT') || (value === 'MULTILINE_TEXT') || (value === 'DATE')) {
         this.editFieldFormGroup.controls[`options`].disable();
-        this.editFieldFormGroup.controls[`required`].enable();
-        this.editFieldFormGroup.controls[`isActive`].enable();
         return true;
       }
     }
     this.editFieldFormGroup.controls[`options`].enable();
-    this.editFieldFormGroup.controls[`required`].disable();
-    this.editFieldFormGroup.controls[`isActive`].disable();
-    this.editFieldFormGroup.controls[`required`].setValue(true);
-    this.editFieldFormGroup.controls[`isActive`].setValue(true);
     return false;
   }
 

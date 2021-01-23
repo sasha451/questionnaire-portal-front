@@ -36,12 +36,8 @@ export class FieldsComponent extends RxUnsubscribe implements OnInit {
   addField(): void {
     const ref = this.modalService.open(AddFieldComponent);
     ref.result.then((yes) => {
-      console.log('Yes');
-      this.loadFields(this.customerId);
-    },
-      (cancel) => {
-      console.log('Cancel');
-      this.loadFields(this.customerId);
+        console.log('Yes');
+        this.loadFields(this.customerId);
       }
     );
   }

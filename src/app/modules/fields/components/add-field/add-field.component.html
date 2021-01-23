@@ -34,7 +34,7 @@
     <div class="form-group row d-flex justify-content-center align-items-center">
       <label class="col-form-label col-sm-2 text-right">Options*</label>
       <div class="col-sm-6">
-        <textarea class="form-control" [formControlName]="'options'"></textarea>
+        <textarea class="form-control" [disabled]="isDisabled()" [formControlName]="'options'"></textarea>
         <div class="error" *ngIf="editFieldFormGroup.get('options')!.invalid && editFieldFormGroup.get('options')!.touched">
           {{getRequiredError('options')}}
         </div>
@@ -42,14 +42,14 @@
     </div>
     <div class="form-group row d-flex justify-content-center align-items-center">
       <div class="checkbox">
-        <label><input type="checkbox" class="form-control" [formControlName]="'required'" [checked]="checked" [disabled]="!isDisabled()" value="">Required</label>
+        <label><input type="checkbox" class="form-control" [formControlName]="'required'" [checked]="checked" value="">Required</label>
       </div>
       <div class="checkbox">
-        <label><input type="checkbox" [checked]="checked" class="form-control" [formControlName]="'isActive'" [disabled]="!isDisabled()">Is Active</label>
+        <label class="ml-1"><input type="checkbox" [checked]="checked" class="form-control" [formControlName]="'isActive'">Is Active</label>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline-dark">Cancel</button>
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel')">Cancel</button>
       <button type="submit" class="btn btn-outline-dark" [disabled]="!editFieldFormGroup.valid">Save</button>
     </div>
   </form>
