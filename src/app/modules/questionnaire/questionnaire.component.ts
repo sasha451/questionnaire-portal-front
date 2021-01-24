@@ -4,10 +4,11 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
 import {FieldServiceService} from '../../services/field-service.service';
 import {RxUnsubscribe} from '../../classes/rx-unsubscribe';
-import {FormBuilder, FormArray, Validators} from '@angular/forms';
+import {FormBuilder, FormArray, Validators, FormGroup, ValidatorFn} from '@angular/forms';
 import {ResponseServiceService} from '../../services/response-service.service';
 import {ResponseModel} from '../../models/response.model';
 import {ResponseEntryModel} from '../../models/responseEntry.model';
+import {requireCheckboxesToBeCheckedValidator} from "./checkboxValidator";
 
 @Component({
   selector: 'app-questionnaire',
@@ -20,7 +21,6 @@ export class QuestionnaireComponent extends RxUnsubscribe implements OnInit {
   // @ts-ignore
   id: number;
   // @ts-ignore
-  fieldsNumber: number;
   questionnaireFromGroup = this.formBuilder.group({
     aliases: this.formBuilder.array([])
   });
@@ -54,11 +54,17 @@ export class QuestionnaireComponent extends RxUnsubscribe implements OnInit {
           fieldsArray.forEach((value) => {
             if (value.active) {
               this.fields.push(value);
-              if (value.fieldType === 'CHECKBOX' || value.fieldType === 'RADIO_BUTTON') {
+              if (value.fieldType === 'CHECKBOX') {
                 let myGroup = this.formBuilder.group({});
                 for (let option of value.options) {
                   myGroup.addControl(option.optionValue, this.formBuilder.control(''));
                 }
+                this.aliases.push(myGroup);
+                myGroup.setValidators(requireCheckboxesToBeCheckedValidator());
+              } else if (value.fieldType === 'RADIO_BUTTON') {
+                let myGroup = this.formBuilder.group({
+                  'model': value.options[0].optionValue
+                });
                 this.aliases.push(myGroup);
               } else if (value.required) {
                 this.aliases.push(this.formBuilder.control('', Validators.required));
@@ -76,8 +82,24 @@ export class QuestionnaireComponent extends RxUnsubscribe implements OnInit {
     console.log(answer);
     let myResponseEntries: ResponseEntryModel[] = [];
     this.fields.forEach((value, index) => {
-      if (value.fieldType === 'DATE' || value.fieldType === 'CHECKBOX' || value.fieldType === 'RADIO_BUTTON') {
-        let val1 = answer[index].toString();
+      if (value.fieldType === 'CHECKBOX') {
+        let myAnswer: String = '';
+        for (let option of value.options) {
+          if (answer[index][option.optionValue]) {
+            myAnswer = myAnswer.concat(' ', option.optionValue.toString());
+          }
+        }
+        // @ts-ignore
+        let responseEntry: ResponseEntryModel = {id: 0, fieldId: value.id, responseEntryValue: myAnswer};
+        myResponseEntries.push(responseEntry);
+      } else if (value.fieldType === 'DATE') {
+        let myAnswer: String = '';
+        myAnswer = myAnswer.concat(answer[index].year, '-', answer[index].month, '-', answer[index].day);
+        // @ts-ignore
+        let responseEntry: ResponseEntryModel = {id: 0, fieldId: value.id, responseEntryValue: myAnswer};
+        myResponseEntries.push(responseEntry);
+      } else if (value.fieldType === 'RADIO_BUTTON') {
+        let val1 = answer[index].model;
         // @ts-ignore
         let responseEntry: ResponseEntryModel = {id: 0, fieldId: value.id, responseEntryValue: val1};
         myResponseEntries.push(responseEntry);
@@ -87,7 +109,6 @@ export class QuestionnaireComponent extends RxUnsubscribe implements OnInit {
       }
     });
     const response: ResponseModel = {id: 0, customerId: this.id, responseEntries: myResponseEntries};
-    console.log(response);
     this.responseService.saveField(response).subscribe((response) => {
       this.router.navigate(['/profile/successSaved']);
       console.log('success');
