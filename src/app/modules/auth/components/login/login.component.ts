@@ -3,6 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CustomerModel} from '../../../../models/customer.model';
 import {CustomerServiceService} from '../../../../services/customer-service.service';
 import {Router} from '@angular/router';
+import {EncrDecrService} from "../../../../services/encr-decr-service.service";
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
   });
   constructor(private formBuilder: FormBuilder,
               private customerService: CustomerServiceService,
-              private router: Router) {
+              private router: Router,
+              private EncrDecr: EncrDecrService) {
   }
 
   ngOnInit(): void {
@@ -46,6 +48,8 @@ export class LoginComponent implements OnInit {
     this.customerService.loginCustomer(customer)
       .then(response => {
         console.log('im here');
+        let plainPassword: String = response.password;
+        response.password = this.EncrDecr.set('123456$#@$^@1ERF', plainPassword);
         localStorage.setItem('customer_info', JSON.stringify(response));
         this.router.navigate(['/fields']);
       })

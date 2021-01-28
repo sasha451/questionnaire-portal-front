@@ -3,6 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {CustomerModel} from '../../../../models/customer.model';
 import {CustomerServiceService} from '../../../../services/customer-service.service';
+import {EncrDecrService} from "../../../../services/encr-decr-service.service";
 
 @Component({
   selector: 'app-edit-profile',
@@ -15,17 +16,21 @@ export class EditProfileComponent implements OnInit {
   profileFormGroup: FormGroup;
   constructor(private formBuilder: FormBuilder,
               private router: Router,
-              private customerService: CustomerServiceService) {
+              private customerService: CustomerServiceService,
+              private EncrDecr: EncrDecrService) {
     this.oldCustomer = JSON.parse(localStorage.getItem('customer_info') as string);
   }
 
   public onSubmit(): void {
     const answer = this.profileFormGroup.value;
-    const customer: CustomerModel = {id: this.oldCustomer.id, email: answer.email, password: this.oldCustomer.password,
+    let oldPassword = this.EncrDecr.get('123456$#@$^@1ERF', this.oldCustomer.password);
+    const customer: CustomerModel = {id: this.oldCustomer.id, email: answer.email, password: oldPassword,
       firstName: answer.firstName, lastName: answer.lastName, phoneNumber: answer.phoneNumber};
     this.customerService.updateCustomer(customer)
       .then(response => {
         localStorage.clear();
+        let plainPassword: String = response.password;
+        response.password = this.EncrDecr.set('123456$#@$^@1ERF', plainPassword);
         localStorage.setItem('customer_info', JSON.stringify(response));
         this.router.navigate(['/fields']);
       })

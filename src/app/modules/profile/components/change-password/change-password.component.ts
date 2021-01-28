@@ -4,6 +4,7 @@ import {CustomerServiceService} from '../../../../services/customer-service.serv
 import {Router} from '@angular/router';
 import {RxwebValidators} from '@rxweb/reactive-form-validators';
 import {CustomerModel} from '../../../../models/customer.model';
+import {EncrDecrService} from "../../../../services/encr-decr-service.service";
 
 @Component({
   selector: 'app-change-password',
@@ -17,7 +18,8 @@ export class ChangePasswordComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private customerService: CustomerServiceService,
-              private router: Router) {
+              private router: Router,
+              private EncrDecr: EncrDecrService) {
     this.oldCustomer = JSON.parse(localStorage.getItem('customer_info') as string);
   }
 
@@ -38,7 +40,8 @@ export class ChangePasswordComponent implements OnInit {
     };
     this.customerService.updateCustomer(customer)
       .then(response => {
-        localStorage.clear();
+        let plainPassword: String = response.password;
+        response.password = this.EncrDecr.set('123456$#@$^@1ERF', plainPassword);
         localStorage.setItem('customer_info', JSON.stringify(response));
         this.router.navigate(['/fields']);
       })
@@ -48,9 +51,10 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   passwordsMatchValidator(form: FormGroup): boolean {
-    if (this.oldCustomer.password && this.passwordChangeFormGroup.get('password')) {
+    let oldPassword = this.EncrDecr.get('123456$#@$^@1ERF', this.oldCustomer.password);
+    if (oldPassword && this.passwordChangeFormGroup.get('password')) {
       // @ts-ignore
-      return this.oldCustomer.password === this.passwordChangeFormGroup.get('password').value ? false :
+      return oldPassword === this.passwordChangeFormGroup.get('password').value ? false :
         {mismatch: true};
     }
     return false;
