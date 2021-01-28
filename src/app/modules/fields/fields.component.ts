@@ -5,6 +5,7 @@ import {FieldServiceService} from '../../services/field-service.service';
 import {takeUntil} from 'rxjs/operators';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AddFieldComponent} from './components/add-field/add-field.component';
+import {EditFieldComponent} from "./components/edit-field/edit-field.component";
 
 @Component({
   selector: 'app-fields',
@@ -35,6 +36,16 @@ export class FieldsComponent extends RxUnsubscribe implements OnInit {
 
   addField(): void {
     const ref = this.modalService.open(AddFieldComponent);
+    ref.result.then((yes) => {
+        console.log('Yes');
+        this.loadFields(this.customerId);
+      }
+    );
+  }
+
+  editField(field: FieldModel): void {
+    const ref = this.modalService.open(EditFieldComponent);
+    ref.componentInstance.fieldModel = field;
     ref.result.then((yes) => {
         console.log('Yes');
         this.loadFields(this.customerId);

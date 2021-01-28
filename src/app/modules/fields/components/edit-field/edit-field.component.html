@@ -1,16 +1,16 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">Add Field</h4>
+  <h4 class="modal-title" id="modal-basic-title">Edit Field</h4>
   <button type="button" class="close" aria-label="Close" (click)="modal.close('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
-  <form [formGroup]="addFieldFormGroup" (ngSubmit)="onSubmit()">
+  <form [formGroup]="editFieldFormGroup" (ngSubmit)="onSubmit()">
     <div class="form-group row d-flex justify-content-center align-items-center">
       <label class="col-form-label col-sm-2 text-right">Label*</label>
       <div class="col-sm-6">
         <input type="text" class="form-control" [formControlName]="'label'"/>
-        <div class="error" *ngIf="addFieldFormGroup.get('label')!.invalid && addFieldFormGroup.get('label')!.touched">
+        <div class="error" *ngIf="editFieldFormGroup.get('label')!.invalid && editFieldFormGroup.get('label')!.touched">
           {{getRequiredError('label')}}
         </div>
       </div>
@@ -26,7 +26,7 @@
           <option>COMBOBOX</option>
           <option>DATE</option>
         </select>
-        <div class="error" *ngIf="addFieldFormGroup.get('type')!.invalid && addFieldFormGroup.get('type')!.touched">
+        <div class="error" *ngIf="editFieldFormGroup.get('type')!.invalid && editFieldFormGroup.get('type')!.touched">
           {{getRequiredError('type')}}
         </div>
       </div>
@@ -35,7 +35,7 @@
       <label class="col-form-label col-sm-2 text-right">Options*</label>
       <div class="col-sm-6">
         <textarea class="form-control" [disabled]="isDisabled()" [formControlName]="'options'"></textarea>
-        <div class="error" *ngIf="addFieldFormGroup.get('options')!.invalid && addFieldFormGroup.get('options')!.touched">
+        <div class="error" *ngIf="editFieldFormGroup.get('options')!.invalid && editFieldFormGroup.get('options')!.touched">
           {{getRequiredError('options')}}
         </div>
       </div>
@@ -50,7 +50,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel')">Cancel</button>
-      <button type="submit" class="btn btn-outline-dark" [disabled]="!addFieldFormGroup.valid">Save</button>
+      <button type="submit" class="btn btn-outline-dark" [disabled]="!editFieldFormGroup.valid">Save</button>
     </div>
   </form>
 </div>

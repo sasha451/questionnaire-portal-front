@@ -14,7 +14,7 @@ import {Router} from '@angular/router';
 export class AddFieldComponent implements OnInit {
 
   // @ts-ignore
-  editFieldFormGroup: FormGroup;
+  addFieldFormGroup: FormGroup;
   checked = true;
   constructor(public modal: NgbActiveModal,
               private formBuilder: FormBuilder,
@@ -22,7 +22,7 @@ export class AddFieldComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
-    this.editFieldFormGroup = this.formBuilder.group({
+    this.addFieldFormGroup = this.formBuilder.group({
       label: this.formBuilder.control('', Validators.required),
       type: this.formBuilder.control('', Validators.required),
       options: this.formBuilder.control('', Validators.required),
@@ -32,21 +32,21 @@ export class AddFieldComponent implements OnInit {
   }
 
   isDisabled(): boolean {
-    if (this.editFieldFormGroup.get('type')) {
+    if (this.addFieldFormGroup.get('type')) {
       // @ts-ignore
-      const value = this.editFieldFormGroup.get('type').value;
+      const value = this.addFieldFormGroup.get('type').value;
       if ((value === 'SINGLE_LINE_TEXT') || (value === 'MULTILINE_TEXT') || (value === 'DATE')) {
-        this.editFieldFormGroup.controls[`options`].disable();
+        this.addFieldFormGroup.controls[`options`].disable();
         return true;
       }
     }
-    this.editFieldFormGroup.controls[`options`].enable();
+    this.addFieldFormGroup.controls[`options`].enable();
     return false;
   }
 
   onSubmit(): void {
     const customerId1 = JSON.parse(localStorage.getItem('customer_info') as string).id;
-    const answer = this.editFieldFormGroup.value;
+    const answer = this.addFieldFormGroup.value;
     let myOptions: OptionModel[] = [];
     if (answer.options !== undefined) {
       const optionsSplit = answer.options.split('\n');
@@ -79,6 +79,6 @@ export class AddFieldComponent implements OnInit {
 
   getRequiredError(elemName: string): string {
     // @ts-ignore
-    return  this.editFieldFormGroup.get(elemName).hasError('required') ? 'You must enter a value' : '';
+    return  this.addFieldFormGroup.get(elemName).hasError('required') ? 'You must enter a value' : '';
   };
 }

@@ -15,6 +15,10 @@ export class FieldServiceService {
     return this.http.get<FieldModel[]>(`${this.baseUrl}byCustomerId?id=${customerId}`);
   }
 
+  updateField(fieldModel: FieldModel) {
+    return this.http.put<FieldModel>(`${this.baseUrl}${fieldModel.id}`, fieldModel);
+  }
+
   deleteField(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}${id}`);
   }
