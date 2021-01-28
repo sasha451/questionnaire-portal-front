@@ -35,7 +35,6 @@ export class LoginComponent implements OnInit {
     const customer: CustomerModel = {id: 0, email: answer.email, password: answer.password, firstName: '', lastName: '', phoneNumber: ''};
     this.customerService.authCustomer(customer)
       .then(response => {
-        localStorage.clear();
         localStorage.setItem('id_token', response.jwt);
       })
       .catch(error => {
@@ -47,7 +46,6 @@ export class LoginComponent implements OnInit {
   next(customer: CustomerModel): void {
     this.customerService.loginCustomer(customer)
       .then(response => {
-        console.log('im here');
         let plainPassword: String = response.password;
         response.password = this.EncrDecr.set('123456$#@$^@1ERF', plainPassword);
         localStorage.setItem('customer_info', JSON.stringify(response));

@@ -28,7 +28,6 @@ export class EditProfileComponent implements OnInit {
       firstName: answer.firstName, lastName: answer.lastName, phoneNumber: answer.phoneNumber};
     this.customerService.updateCustomer(customer)
       .then(response => {
-        localStorage.clear();
         let plainPassword: String = response.password;
         response.password = this.EncrDecr.set('123456$#@$^@1ERF', plainPassword);
         localStorage.setItem('customer_info', JSON.stringify(response));
