@@ -12,7 +12,7 @@
           <th *ngFor="let field of fields">{{field.label}}</th>
         </thead>
         <tbody>
-        <tr *ngFor="let response of responses">
+        <tr *ngFor="let response of slicedResponses">
           <td *ngFor="let field of fields">
             <div *ngIf="!answerWillBe(field.id, response.responseEntries)">N/A</div>
             <div *ngIf="answerWillBe(field.id, response.responseEntries)">{{getAnswer(field.id, response.responseEntries)}}</div>
@@ -20,6 +20,16 @@
         </tr>
         </tbody>
       </table>
+      <div class="d-flex justify-content-between p-2">
+        <ngb-pagination [collectionSize]="responses.length" [(page)]="page" [pageSize]="pageSize" (pageChange)="refreshResponses()">
+        </ngb-pagination>
+
+        <select class="custom-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshResponses()">
+          <option [ngValue]="2">2 items per page</option>
+          <option [ngValue]="4">4 items per page</option>
+          <option [ngValue]="6">6 items per page</option>
+        </select>
+      </div>
     </div>
   </div>
 </div>

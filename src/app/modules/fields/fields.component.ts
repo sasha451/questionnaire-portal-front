@@ -14,12 +14,13 @@ import {EditFieldComponent} from "./components/edit-field/edit-field.component";
 })
 export class FieldsComponent extends RxUnsubscribe implements OnInit {
   // @ts-ignore
+  slicedFields: FieldModel[];
+  // @ts-ignore
   fields: FieldModel[];
   // @ts-ignore
   customerId: number;
-  // @ts-ignore
-  private bodyText: string;
-
+  page = 1;
+  pageSize = 4;
   constructor(private fieldService: FieldServiceService,
               private modalService: NgbModal) {
     super();
@@ -67,8 +68,14 @@ export class FieldsComponent extends RxUnsubscribe implements OnInit {
       .subscribe(
         (fieldsArray: FieldModel[]) => {
           this.fields = fieldsArray;
+          this.refreshFields()
         }
       );
   }
 
+  refreshFields() {
+
+    this.slicedFields =  this.fields
+      .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
+  }
 }

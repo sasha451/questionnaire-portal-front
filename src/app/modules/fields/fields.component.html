@@ -21,7 +21,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let field of fields">
+        <tr *ngFor="let field of slicedFields">
           <td> {{ field.label }} </td>
           <td> {{ field.fieldType }} </td>
           <td> {{ field.required }} </td>
@@ -35,6 +35,16 @@
         </tr>
         </tbody>
       </table>
+      <div class="d-flex justify-content-between p-2">
+        <ngb-pagination [collectionSize]="fields.length" [(page)]="page" [pageSize]="pageSize" (pageChange)="refreshFields()">
+        </ngb-pagination>
+
+        <select class="custom-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshFields()">
+          <option [ngValue]="2">2 items per page</option>
+          <option [ngValue]="4">4 items per page</option>
+          <option [ngValue]="6">6 items per page</option>
+        </select>
+      </div>
     </div>
   </div>
 </div>

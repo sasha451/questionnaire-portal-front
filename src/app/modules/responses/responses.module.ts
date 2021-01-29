@@ -4,6 +4,7 @@ import { ResponsesComponent } from './responses.component';
 import {RouterModule, Routes} from '@angular/router';
 import {SharedModule} from '../shared/shared.module';
 import {FormsModule} from "@angular/forms";
+import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 
 const routes: Routes = [
   {
@@ -17,7 +18,8 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     SharedModule,
-    FormsModule
+    FormsModule,
+    NgbPaginationModule
   ]
 })
 export class ResponsesModule { }

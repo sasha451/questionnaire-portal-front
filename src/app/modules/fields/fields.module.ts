@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import { FieldsComponent } from './fields.component';
 import {SharedModule} from '../shared/shared.module';
-import {NgbDatepickerModule} from '@ng-bootstrap/ng-bootstrap';
-import {ReactiveFormsModule} from '@angular/forms';
+import {NgbDatepickerModule, NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AddFieldComponent } from './components/add-field/add-field.component';
 import { EditFieldComponent } from './components/edit-field/edit-field.component';
 
@@ -23,7 +23,9 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     SharedModule,
     NgbDatepickerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbPaginationModule,
+    FormsModule
   ]
 })
 export class FieldsModule { }

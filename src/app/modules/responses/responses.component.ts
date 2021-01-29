@@ -18,6 +18,8 @@ export class ResponsesComponent extends RxUnsubscribe implements OnInit {
   // @ts-ignore
   responses: ResponseModel[];
   // @ts-ignore
+  slicedResponses: ResponseModel[];
+  // @ts-ignore
   fields: FieldModel[];
   // @ts-ignore
   customerId: number;
@@ -28,6 +30,8 @@ export class ResponsesComponent extends RxUnsubscribe implements OnInit {
   name: string;
   // @ts-ignore
   disabled: boolean;
+  page = 1;
+  pageSize = 4;
   constructor(private responseService: ResponseServiceService,
               private fieldService: FieldServiceService) {
     super();
@@ -121,8 +125,14 @@ export class ResponsesComponent extends RxUnsubscribe implements OnInit {
       .subscribe(
         (responseArray: ResponseModel[]) => {
           this.responses = responseArray;
+          this.refreshResponses();
         }
       );
+  }
+
+  refreshResponses() {
+    this.slicedResponses =  this.responses
+      .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
 
   loadFields(customerId: number): void {
