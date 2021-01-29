@@ -43,12 +43,26 @@ export class CustomerServiceService {
   updateCustomer(customer: CustomerModel): Promise<any> {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return new Promise<any>(((resolve, reject) => {
-      this.httpClient.put<CustomerModel>(`${this.baseUrl}${customer.id}`, JSON.stringify(customer), {headers}).subscribe(
+      this.httpClient.put<CustomerModel>(`${this.baseUrl}${customer.id}`, headers).subscribe(
         result => {
           resolve(result);
         },
         error => {
           reject('Old customer was not found');
+        }
+      );
+    }));
+  }
+
+  updatePassword(customer: CustomerModel): Promise<any> {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return new Promise<any>(((resolve, reject) => {
+      this.httpClient.put(`${this.baseUrl}changePassword`, JSON.stringify(customer), {headers}).subscribe(
+        result => {
+          resolve(result);
+        },
+        error => {
+          reject('Customer was not found');
         }
       );
     }));

@@ -38,7 +38,7 @@ export class ChangePasswordComponent implements OnInit {
       id: this.oldCustomer.id, email: this.oldCustomer.email, password: answer.newPassword,
       firstName: this.oldCustomer.firstName, lastName: this.oldCustomer.lastName, phoneNumber: this.oldCustomer.phoneNumber
     };
-    this.customerService.updateCustomer(customer)
+    this.customerService.updatePassword(customer)
       .then(response => {
         let plainPassword: String = response.password;
         response.password = this.EncrDecr.set('123456$#@$^@1ERF', plainPassword);
