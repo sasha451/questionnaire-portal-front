@@ -36,11 +36,11 @@ export class LoginComponent implements OnInit {
     this.customerService.authCustomer(customer)
       .then(response => {
         localStorage.setItem('id_token', response.jwt);
+        this.next(customer);
       })
       .catch(error => {
         console.log(error.toString());
       });
-    this.next(customer);
   }
 
   next(customer: CustomerModel): void {

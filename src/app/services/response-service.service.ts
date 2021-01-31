@@ -8,6 +8,7 @@ import {ResponseModel} from '../models/response.model';
 })
 export class ResponseServiceService {
   private baseUrl = 'http://localhost:8085/api/v1/responses/';
+  private unregisteredCustomerUrl = 'http://localhost:8085/api/v1/unregisteredCustomers/';
 
   constructor(private http: HttpClient) { }
 
@@ -15,7 +16,7 @@ export class ResponseServiceService {
     return this.http.get<ResponseModel[]>(`${this.baseUrl}byCustomerId?id=${customerId}`);
   }
 
-  saveField(response: ResponseModel): Observable<ResponseModel> {
-    return this.http.post<ResponseModel>(`${this.baseUrl}`, response);
+  saveResponse(response: ResponseModel): Observable<ResponseModel> {
+    return this.http.post<ResponseModel>(`${this.unregisteredCustomerUrl}response`, response);
   }
 }

@@ -3,9 +3,10 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {EncrDecrService} from "./services/encr-decr-service.service";
+import {AuthInterceptor} from "./interceptor/auth-interceptor";
 
 
 @NgModule({
@@ -18,7 +19,14 @@ import {EncrDecrService} from "./services/encr-decr-service.service";
     HttpClientModule,
     NgbModule
   ],
-  providers: [EncrDecrService],
+  providers: [
+    EncrDecrService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

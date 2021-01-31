@@ -8,11 +8,12 @@ import {FieldModel} from '../models/field.model';
 })
 export class FieldServiceService {
   private baseUrl = 'http://localhost:8085/api/v1/fields/';
+  private unregisteredCustomerUrl = 'http://localhost:8085/api/v1/unregisteredCustomers/';
 
   constructor(private http: HttpClient) { }
 
   getFields(customerId: number): Observable<FieldModel[]> {
-    return this.http.get<FieldModel[]>(`${this.baseUrl}byCustomerId?id=${customerId}`);
+    return this.http.get<FieldModel[]>(`${this.unregisteredCustomerUrl}byCustomerId?id=${customerId}`);
   }
 
   updateField(fieldModel: FieldModel) {

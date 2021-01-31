@@ -26,11 +26,22 @@ export class EditProfileComponent implements OnInit {
     let oldPassword = this.EncrDecr.get('123456$#@$^@1ERF', this.oldCustomer.password);
     const customer: CustomerModel = {id: this.oldCustomer.id, email: answer.email, password: oldPassword,
       firstName: answer.firstName, lastName: answer.lastName, phoneNumber: answer.phoneNumber};
+    console.log(customer);
     this.customerService.updateCustomer(customer)
       .then(response => {
-        let plainPassword: String = response.password;
+        let plainPassword = response.password;
         response.password = this.EncrDecr.set('123456$#@$^@1ERF', plainPassword);
+        localStorage.clear();
         localStorage.setItem('customer_info', JSON.stringify(response));
+        const newCustomer: CustomerModel = {id: response.id, email: response.email, password: plainPassword,
+          firstName: response.firstName, lastName: response.lastName, phoneNumber: response.phoneNumber};
+        this.customerService.authCustomer(newCustomer)
+          .then(response => {
+            localStorage.setItem('id_token', response.jwt);
+          })
+          .catch(error => {
+            console.log(error.toString());
+          });
         this.router.navigate(['/fields']);
       })
       .catch(error => {

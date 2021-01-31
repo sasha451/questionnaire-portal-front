@@ -109,7 +109,7 @@ export class QuestionnaireComponent extends RxUnsubscribe implements OnInit {
       }
     });
     const response: ResponseModel = {id: 0, customerId: this.id, responseEntries: myResponseEntries};
-    this.responseService.saveField(response).subscribe((response) => {
+    this.responseService.saveResponse(response).subscribe((response) => {
       this.router.navigate(['/profile/successSaved']);
       console.log('success');
       console.log(response);

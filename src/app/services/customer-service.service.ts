@@ -10,6 +10,7 @@ export class CustomerServiceService {
 
   private baseUrl = 'http://localhost:8085/api/v1/customers/';
   private authUrl = 'http://localhost:8085/authenticate';
+  private unregisteredCustomerUrl = 'http://localhost:8085/api/v1/unregisteredCustomers/';
 
   constructor(private httpClient: HttpClient) {
   }
@@ -43,7 +44,7 @@ export class CustomerServiceService {
   updateCustomer(customer: CustomerModel): Promise<any> {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return new Promise<any>(((resolve, reject) => {
-      this.httpClient.put<CustomerModel>(`${this.baseUrl}${customer.id}`, headers).subscribe(
+      this.httpClient.put<CustomerModel>(`${this.baseUrl}${customer.id}`, JSON.stringify(customer), {headers}).subscribe(
         result => {
           resolve(result);
         },
@@ -71,12 +72,12 @@ export class CustomerServiceService {
   addCustomer(customer: CustomerModel): Promise<any> {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return new Promise((resolve, reject) => {
-      this.httpClient.get<CustomerModel>(`${this.baseUrl}${customer.email}`).subscribe(
+      this.httpClient.get<CustomerModel>(`${this.unregisteredCustomerUrl}${customer.email}`).subscribe(
         result => {
           reject('That email is taken, please try another');
         },
         error => {
-          this.httpClient.post<CustomerModel>(`${this.baseUrl}`, JSON.stringify(customer), {headers}).subscribe();
+          this.httpClient.post<CustomerModel>(`${this.unregisteredCustomerUrl}`, JSON.stringify(customer), {headers}).subscribe();
           resolve(customer);
         }
       );
